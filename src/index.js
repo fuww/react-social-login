@@ -104,16 +104,16 @@ const SocialLogin = (WrappedComponent) => class SocialLogin extends Component {
       }, this.onLoginFailure)
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentDidUpdate (prevProps) {
     const { appId, gatekeeper, provider } = this.props
 
-    if (provider === 'github' && !gatekeeper && appId !== nextProps.appId) {
+    if (provider === 'github' && !gatekeeper && appId !== prevProps.appId) {
       this.setState(() => ({
         isLoaded: false,
         isFetching: false,
         isConnected: false
       }), () => {
-        this.sdk.load(nextProps.appId).then(() => {
+        this.sdk.load(appId).then(() => {
           this.setState((prevState) => ({
             ...prevState,
             isLoaded: true
